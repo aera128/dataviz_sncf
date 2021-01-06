@@ -1,7 +1,7 @@
 <template lang="html">
 
   <section class="objects">
-    <h1>objects Component</h1>
+    <h1>Objets Trouvés</h1>
   </section>
 
 </template>
@@ -32,6 +32,5 @@
 
 <style scoped lang="scss">
   .objects {
-
   }
 </style>

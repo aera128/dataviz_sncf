@@ -10,9 +10,9 @@
           :options-style="styleFunction"></l-geo-json>
     </l-map>
     <div class="input-group search-input">
-      <input type="text" class="form-control" placeholder="Search" v-model="query" @keyup="updateMap">
+      <input type="text" class="form-control" placeholder="Search" v-model="q" @keyup="updateQuery">
       <div class="input-group-append">
-        <button class="btn btn-secondary" type="button" @click="updateMap">
+        <button class="btn btn-secondary" type="button" @click="updateQuery">
           <i class="fa fa-search"></i>
         </button>
       </div>
@@ -48,49 +48,57 @@ export default {
         "type": "FeatureCollection",
         "features": {},
       },
-      query: "",
-      timer: null
+      timer: null,
+      prevRoute: null,
+      q: this.$route.query.q
     }
   },
   methods: {
-    updateMap() {
+    updateQuery() {
       if (this.timer) {
         clearTimeout(this.timer);
         this.timer = null;
       }
       this.timer = setTimeout(() => {
-        axios
-            .get('https://ressources.data.sncf.com/api/records/1.0/search/?dataset=referentiel-gares-voyageurs', {
-              params: {
-                q: this.query === "" ? "niveauservice_libelle > 1" : "niveauservice_libelle > 1 and " + this.query,
-                rows: -1,
-                facet : ["departement_libellemin", "segmentdrg_libelle", "gare_agencegc_libelle", "gare_regionsncf_libelle", "gare_ug_libelle"]
-              }
-            })
-            .then(r => {
-              let list = [];
-              r.data.records.map((value) => {
-                list.push({
-                  "type": "Feature",
-                  "properties": {
-                    "popupContent":
-                        "<div><strong>Code : </strong> " + value.fields.code + " </div>" +
-                        "<div><strong>Gare : </strong> " + value.fields.alias_libelle_noncontraint + " </div>" +
-                        "<div><strong>Département : </strong> " + value.fields.departement_libellemin + " </div>" +
-                        "<div><strong>N° Département : </strong> " + value.fields.departement_numero + " </div>" +
-                        "<div><strong>Latitude : </strong> " + value.fields.latitude_entreeprincipale_wgs84 + " </div>" +
-                        "<div><strong>Longitude : </strong> " + value.fields.longitude_entreeprincipale_wgs84 + " </div>" +
-                        "<div><strong>Niveau de service : </strong> " + value.fields.niveauservice_libelle + " </div>"
-                  },
-                  "geometry": value.geometry
-                });
-                this.geojson["features"] = list;
-              })
-            })
+        this.$router.push({path: 'gares', query: {q: this.q}});
+        this.updateMap();
       }, 800);
+    },
+    updateMap() {
+      axios
+          .get('https://ressources.data.sncf.com/api/records/1.0/search/?dataset=referentiel-gares-voyageurs', {
+            params: {
+              q: (!this.query || this.query === "") ? "niveauservice_libelle > 1" : "niveauservice_libelle > 1 and " + this.query,
+              rows: -1,
+              facet: ["departement_libellemin", "segmentdrg_libelle", "gare_agencegc_libelle", "gare_regionsncf_libelle", "gare_ug_libelle"]
+            }
+          })
+          .then(r => {
+            let list = [];
+            r.data.records.map((value) => {
+              list.push({
+                "type": "Feature",
+                "properties": {
+                  "popupContent":
+                      "<div><strong>Code : </strong> " + value.fields.code + " </div>" +
+                      "<div><strong>Gare : </strong> " + value.fields.alias_libelle_noncontraint + " </div>" +
+                      "<div><strong>Département : </strong> " + value.fields.departement_libellemin + " </div>" +
+                      "<div><strong>N° Département : </strong> " + value.fields.departement_numero + " </div>" +
+                      "<div><strong>Latitude : </strong> " + value.fields.latitude_entreeprincipale_wgs84 + " </div>" +
+                      "<div><strong>Longitude : </strong> " + value.fields.longitude_entreeprincipale_wgs84 + " </div>" +
+                      "<div><strong>Niveau de service : </strong> " + value.fields.niveauservice_libelle + " </div>"
+                },
+                "geometry": value.geometry
+              });
+              this.geojson["features"] = list;
+            })
+          })
     }
   },
   computed: {
+    query() {
+      return this.$route.query.q
+    },
     options() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -118,6 +126,12 @@ export default {
   },
   async created() {
     this.updateMap();
+  },
+  watch: {
+    $route(to,) {
+      this.q = to.query.q;
+      this.updateMap();
+    }
   }
 }
 </script>

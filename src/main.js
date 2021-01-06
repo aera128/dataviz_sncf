@@ -13,6 +13,7 @@ import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+import { VuejsDatatableFactory } from 'vuejs-datatable';
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
@@ -23,6 +24,7 @@ Icon.Default.mergeOptions({
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 Vue.use(VueSidebarMenu)
+Vue.use( VuejsDatatableFactory );
 
 new Vue({
     router,
