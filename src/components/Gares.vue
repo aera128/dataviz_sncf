@@ -102,11 +102,10 @@ export default {
 
 <style scoped lang="scss">
 .l-map {
-  position: absolute;
-  top: 0;
+  position: relative;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  z-index: -1;
+  z-index: 0;
 }
 </style>
