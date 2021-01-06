@@ -65,7 +65,7 @@ export default {
       }, 800);
     },
     updateMap() {
-      document.querySelector("#btn-search").innerHTML = '<div class="spinner-border" style="width: 1rem; height: 1rem; border-width: 2px" role="status"><span class="sr-only">Loading...</span</div>';
+      // document.querySelector("#btn-search").innerHTML = '<div class="spinner-border" style="width: 1rem; height: 1rem; border-width: 2px" role="status"><span class="sr-only">Loading...</span</div>';
       axios
           .get('https://ressources.data.sncf.com/api/records/1.0/search/?dataset=referentiel-gares-voyageurs', {
             params: {
@@ -94,7 +94,7 @@ export default {
             })
             this.geojson["features"] = list;
 
-            document.querySelector("#btn-search").innerHTML = '<i class="fa fa-search"></i>';
+            // document.querySelector("#btn-search").innerHTML = '<i class="fa fa-search"></i>';
 
           })
     }

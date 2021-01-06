@@ -10,10 +10,12 @@ import VueAxios from 'vue-axios'
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 import 'leaflet/dist/leaflet.css';
-import { Icon } from 'leaflet';
+import {Icon} from 'leaflet';
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
-import { VuejsDatatableFactory } from 'vuejs-datatable';
+import VuePageTransition from 'vue-page-transition'
+import VueRellax from 'vue-rellax'
+
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
@@ -21,10 +23,13 @@ Icon.Default.mergeOptions({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
+
 Vue.config.productionTip = false
+
 Vue.use(VueAxios, axios)
 Vue.use(VueSidebarMenu)
-Vue.use( VuejsDatatableFactory );
+Vue.use(VuePageTransition)
+Vue.use(VueRellax)
 
 new Vue({
     router,
