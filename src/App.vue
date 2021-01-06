@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <sidebar-menu :menu="menu" :collapsed="true"/>
+      <sidebar-menu id="menu" :menu="menu" :collapsed="true" @item-click="onItemClick"/>
       <router-view class="page-content"/>
   </div>
 </template>
@@ -36,6 +36,11 @@ export default {
           icon: 'fa fa-train'
         },
         {
+          href: '/objets-trouves',
+          title: 'Objets Trouvés',
+          icon: 'fa fa-flag'
+        },
+        {
           href: '/about',
           title: 'A Propos',
           icon: 'fa fa-info'
@@ -43,7 +48,13 @@ export default {
       ],
     }
   },
-  methods: {},
+  methods: {
+    onItemClick() {
+      if(document.querySelector('#menu').classList.contains('vsm_expanded')){
+        document.querySelector('.vsm--toggle-btn').click();
+      }
+    }
+  },
   computed: {}
 }
 </script>

@@ -9,7 +9,14 @@
           :options="options"
           :options-style="styleFunction"></l-geo-json>
     </l-map>
-    <div>{{ sncf }}</div>
+    <div class="input-group search-input">
+      <input type="text" class="form-control" placeholder="Search" v-model="query" @keyup="updateMap">
+      <div class="input-group-append">
+        <button class="btn btn-secondary" type="button" @click="updateMap">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
   </section>
 
 </template>
@@ -35,16 +42,54 @@ export default {
       show: true,
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       zoom: 6,
-      center: [48, -1.219482],
+      center: [47, 2],
       enableTooltip: true,
       geojson: {
         "type": "FeatureCollection",
         "features": {},
       },
-      sncf: null,
+      query: "",
+      timer: null
     }
   },
-  methods: {},
+  methods: {
+    updateMap() {
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+      this.timer = setTimeout(() => {
+        axios
+            .get('https://ressources.data.sncf.com/api/records/1.0/search/?dataset=referentiel-gares-voyageurs', {
+              params: {
+                q: this.query === "" ? "niveauservice_libelle > 1" : "niveauservice_libelle > 1 and " + this.query,
+                rows: -1,
+                facet : ["departement_libellemin", "segmentdrg_libelle", "gare_agencegc_libelle", "gare_regionsncf_libelle", "gare_ug_libelle"]
+              }
+            })
+            .then(r => {
+              let list = [];
+              r.data.records.map((value) => {
+                list.push({
+                  "type": "Feature",
+                  "properties": {
+                    "popupContent":
+                        "<div><strong>Code : </strong> " + value.fields.code + " </div>" +
+                        "<div><strong>Gare : </strong> " + value.fields.alias_libelle_noncontraint + " </div>" +
+                        "<div><strong>Département : </strong> " + value.fields.departement_libellemin + " </div>" +
+                        "<div><strong>N° Département : </strong> " + value.fields.departement_numero + " </div>" +
+                        "<div><strong>Latitude : </strong> " + value.fields.latitude_entreeprincipale_wgs84 + " </div>" +
+                        "<div><strong>Longitude : </strong> " + value.fields.longitude_entreeprincipale_wgs84 + " </div>" +
+                        "<div><strong>Niveau de service : </strong> " + value.fields.niveauservice_libelle + " </div>"
+                  },
+                  "geometry": value.geometry
+                });
+                this.geojson["features"] = list;
+              })
+            })
+      }, 800);
+    }
+  },
   computed: {
     options() {
       return {
@@ -72,32 +117,9 @@ export default {
     }
   },
   async created() {
-    axios
-        .get('https://ressources.data.sncf.com/api/records/1.0/search/?dataset=referentiel-gares-voyageurs&q=niveauservice_libelle%3E1&rows=-1&sort=gare_alias_libelle_noncontraint')
-        .then(r => {
-          let list = [];
-          r.data.records.map((value) => {
-            list.push({
-              "type": "Feature",
-              "properties": {
-                "popupContent":
-                    "<div><strong>Code : </strong> " + value.fields.code + " </div>"+
-                    "<div><strong>Gare : </strong> " + value.fields.alias_libelle_noncontraint + " </div>"+
-                    "<div><strong>Département : </strong> " + value.fields.departement_libellemin + " </div>"+
-                    "<div><strong>N° Département : </strong> " + value.fields.departement_numero + " </div>"+
-                    "<div><strong>Latitude : </strong> " + value.fields.latitude_entreeprincipale_wgs84 + " </div>"+
-                    "<div><strong>Longitude : </strong> " + value.fields.longitude_entreeprincipale_wgs84 + " </div>"+
-                    "<div><strong>Niveau de service : </strong> " + value.fields.niveauservice_libelle + " </div>"
-              },
-              "geometry": value.geometry
-            });
-            this.geojson["features"] = list;
-          })
-        })
+    this.updateMap();
   }
 }
-
-
 </script>
 
 <style scoped lang="scss">
@@ -108,4 +130,24 @@ export default {
   height: 100vh;
   z-index: 0;
 }
+
+.search-input {
+  position: absolute;
+  top: 10px;
+  left: 50px;
+  width: calc(100% - 60px);
+  @media (min-width: 576px) {
+    width: calc(100% - 60px);
+  }
+  @media (min-width: 768px) {
+    width: 60%;
+  }
+  @media (min-width: 992px) {
+    width: 50%;
+  }
+  @media (min-width: 1200px) {
+    width: 30%;
+  }
+}
+
 </style>
