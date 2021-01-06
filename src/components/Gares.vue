@@ -12,7 +12,7 @@
     <div class="input-group search-input">
       <input type="text" class="form-control" placeholder="Search" v-model="q" @keyup="updateQuery">
       <div class="input-group-append">
-        <button class="btn btn-secondary" type="button" @click="updateQuery">
+        <button class="btn btn-secondary" type="button" @click="updateQuery" id="btn-search">
           <i class="fa fa-search"></i>
         </button>
       </div>
@@ -65,6 +65,7 @@ export default {
       }, 800);
     },
     updateMap() {
+      document.querySelector("#btn-search").innerHTML = '<div class="spinner-border" style="width: 1rem; height: 1rem; border-width: 2px" role="status"><span class="sr-only">Loading...</span</div>';
       axios
           .get('https://ressources.data.sncf.com/api/records/1.0/search/?dataset=referentiel-gares-voyageurs', {
             params: {
@@ -90,8 +91,11 @@ export default {
                 },
                 "geometry": value.geometry
               });
-              this.geojson["features"] = list;
             })
+            this.geojson["features"] = list;
+
+            document.querySelector("#btn-search").innerHTML = '<i class="fa fa-search"></i>';
+
           })
     }
   },
