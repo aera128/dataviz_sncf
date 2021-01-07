@@ -1,7 +1,7 @@
 <template lang="html">
 
   <section class="gares">
-    <l-map class="l-map" :zoom="zoom" :center="center">
+    <l-map class="l-map" :zoom="zoom" :center="center" @popupopen="test">
       <l-tile-layer :url="url"></l-tile-layer>
       <l-geo-json
           v-if="show"
@@ -18,7 +18,6 @@
       </div>
     </div>
   </section>
-
 </template>
 
 <script lang="js">
@@ -87,16 +86,21 @@ export default {
                       "<div><strong>N° Département : </strong> " + value.fields.departement_numero + " </div>" +
                       "<div><strong>Latitude : </strong> " + value.fields.latitude_entreeprincipale_wgs84 + " </div>" +
                       "<div><strong>Longitude : </strong> " + value.fields.longitude_entreeprincipale_wgs84 + " </div>" +
-                      "<div><strong>Niveau de service : </strong> " + value.fields.niveauservice_libelle + " </div>"
+                      "<div><strong>Niveau de service : </strong> " + value.fields.niveauservice_libelle + " </div>" +
+                      "<div><div style='cursor: pointer' class='objects-station btn-link' to='objets/?uic=" + value.fields.uic_code + "'>Voir les objets trouvés</div> </div>"
                 },
                 "geometry": value.geometry
               });
             })
             this.geojson["features"] = list;
-
             // document.querySelector("#btn-search").innerHTML = '<i class="fa fa-search"></i>';
 
           })
+    },
+    test() {
+      document.querySelector('.objects-station').addEventListener('click', () => {
+        this.$router.push(document.querySelector('.objects-station').getAttribute('to'))
+      })
     }
   },
   computed: {
@@ -145,13 +149,13 @@ export default {
   position: relative;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 59px);
   z-index: 0;
 }
 
 .search-input {
   position: absolute;
-  top: 10px;
+  top: 69px;
   left: 50px;
   width: calc(100% - 60px);
   @media (min-width: 576px) {

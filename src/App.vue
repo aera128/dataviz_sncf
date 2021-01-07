@@ -1,19 +1,39 @@
 <template>
   <div id="app">
-    <sidebar-menu id="menu" :menu="menu" :collapsed="true" @item-click="onItemClick"/>
-    <vue-page-transition name="overlay-left-full">
+    <div>
+      <b-navbar toggleable="lg" variant="faded" type="light" sticky class="navbar-sncf">
+        <b-navbar-brand href="/">
+          <b-img class="d-inline-block align-top" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Logo_SNCF_2011.svg/1200px-Logo_SNCF_2011.svg.png" alt="Logo" height="30px"></b-img>
+          SNCF Visualisation
+        </b-navbar-brand>
+        <b-navbar-toggle target="navbar-toggle-collapse">
+          <template #default="{ expanded }">
+            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+            <b-icon v-else icon="chevron-bar-down"></b-icon>
+          </template>
+        </b-navbar-toggle>
+
+        <b-collapse id="navbar-toggle-collapse" is-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item><b-link class="text-decoration-none text-secondary" to="/">Accueil</b-link></b-nav-item>
+            <b-nav-item><b-link class="text-decoration-none text-secondary" to="/gares">Cartes</b-link></b-nav-item>
+            <b-nav-item><b-link class="text-decoration-none text-secondary" to="/statistiques">Stats</b-link></b-nav-item>
+            <b-nav-item><b-link class="text-decoration-none text-secondary" to="/about">A Propos</b-link></b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
+    <vue-page-transition name="overlay-up-full">
       <router-view class="page-content"/>
     </vue-page-transition>
   </div>
 </template>
 
 <script lang="js">
-import {SidebarMenu} from 'vue-sidebar-menu'
 
 export default {
   name: 'App',
   components: {
-    SidebarMenu
   },
   props: [],
   mounted() {
@@ -21,33 +41,6 @@ export default {
   },
   data() {
     return {
-      menu: [
-        {
-          header: true,
-          title: 'Dataviz',
-          hiddenOnCollapse: true
-        },
-        {
-          href: '/',
-          title: 'Accueil',
-          icon: 'fa fa-home'
-        },
-        {
-          href: '/gares',
-          title: 'Gares',
-          icon: 'fa fa-train'
-        },
-        {
-          href: '/objets-trouves',
-          title: 'Objets Trouvés',
-          icon: 'fa fa-flag'
-        },
-        {
-          href: '/about',
-          title: 'A Propos',
-          icon: 'fa fa-info'
-        },
-      ],
     }
   },
   methods: {
@@ -61,92 +54,14 @@ export default {
 }
 </script>
 <style lang="scss">
-.page-content {
-  position: relative;
-  left: 50px;
-  width: calc(100% - 50px);
-}
-
-.v-sidebar-menu {
-}
-
-.v-sidebar-menu.vsm_expanded {
-}
-
-.v-sidebar-menu.vsm_collapsed {
-}
-
-.v-sidebar-menu.vsm_rtl {
-}
-
-.v-sidebar-menu .vsm--item {
-}
-
-.v-sidebar-menu .vsm--item.vsm--item_open {
-}
-
-.v-sidebar-menu .vsm--link {
-}
-
-.v-sidebar-menu .vsm--link.vsm--link_active {
-}
-
-.v-sidebar-menu .vsm--link.vsm--link_exact-active {
-}
-
-.v-sidebar-menu .vsm--link.vsm--link_mobile-item {
-}
-
-.v-sidebar-menu .vsm--link.vsm--link_level-[n] {
-}
-
-.v-sidebar-menu .vsm--link.vsm--link_disabled {
-}
-
-.v-sidebar-menu .vsm--title {
-}
-
-.v-sidebar-menu .vsm--icon {
-  background: transparent !important;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.v-sidebar-menu .vsm--arrow {
-}
-
-.v-sidebar-menu .vsm--arrow.vsm--arrow_open {
-}
-
-.v-sidebar-menu .vsm--badge {
-}
-
-.v-sidebar-menu .vsm--header {
-}
-
-.v-sidebar-menu .vsm--list {
-}
-
-.v-sidebar-menu .vsm--dropdown > .vsm--list {
-}
-
-.v-sidebar-menu .vsm--mobile-item {
-}
-
-.v-sidebar-menu .vsm--mobile-bg {
-}
-
-.v-sidebar-menu .vsm--toggle-btn {
-  background-color: #2a2a2e !important;
-}
-
-.overlay-right,
-.overlay-left
+.overlay-top,
+.overlay-bottom
 {
-  background-color: #2a2a2e !important;
+  background-color: #d62246 !important;
+  z-index: 9998;
 }
-
-:root{
-  $enable-responsive-font-sizes: true;
+.navbar-sncf{
+  background-color: #ffffff;
+  z-index: 20;
 }
 </style>
