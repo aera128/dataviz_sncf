@@ -44,6 +44,7 @@
             <b-list-group-item><b-link href="https://github.com/grid-js/gridjs-vue" target="_blank">gridjs-vue</b-link></b-list-group-item>
             <b-list-group-item><b-link href="https://github.com/imcvampire/vue-axios" target="_blank">vue-axios</b-link></b-list-group-item>
             <b-list-group-item><b-link href="https://github.com/Orlandster/vue-page-transition" target="_blank">vue-page-transition</b-link></b-list-group-item>
+            <b-list-group-item><b-link href="https://github.com/Orlandster/vue-typed-js" target="_blank">vue-typed-js</b-link></b-list-group-item>
           </b-list-group>
         </b-col>
       </b-row>

@@ -12,6 +12,8 @@ import '@fortawesome/fontawesome-free/js/all.js'
 import 'leaflet/dist/leaflet.css';
 import {Icon} from 'leaflet';
 import VuePageTransition from 'vue-page-transition'
+import VueTypedJs from 'vue-typed-js'
+
 
 
 delete Icon.Default.prototype._getIconUrl;
@@ -25,6 +27,7 @@ Vue.config.productionTip = false
 
 Vue.use(VueAxios, axios)
 Vue.use(VuePageTransition)
+Vue.use(VueTypedJs)
 
 new Vue({
     router,
