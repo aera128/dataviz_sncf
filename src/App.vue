@@ -18,7 +18,7 @@
         <b-collapse id="navbar-toggle-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
             <router-link to="/" tag="b-nav-item"><i class="fa fa-home"></i> Accueil</router-link>
-            <router-link to="/gares" tag="b-nav-item"><i class="fa fa-map"></i> Cartes</router-link>
+            <router-link to="/gares" tag="b-nav-item"><i class="fa fa-map"></i> Carte</router-link>
             <router-link to="/statistiques" tag="b-nav-item"><i class="fas fa-chart-pie"></i> Stats</router-link>
             <router-link to="/about" tag="b-nav-item"><i class="fa fa-info-circle"></i> A Propos</router-link>
           </b-navbar-nav>

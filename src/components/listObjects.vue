@@ -19,7 +19,7 @@
               :sort="sort"
               :language="language"
               :fixedHeader="fixedHeader"
-              class="mt-3 gridjs"
+              class="mt-3 mb-5 gridjs"
           ></grid>
         </b-col>
       </b-row>
@@ -123,7 +123,7 @@ export default {
 
 <style scoped lang="scss">
 .list-objects {
-
+  min-height: calc(100vh - 56px);
 }
 
 .gridjs {

@@ -4,11 +4,11 @@
       <div class="d-flex w-100 h-100 justify-content-center align-items-center hero-container"
            style="min-height: calc(100vh - 56px)">
         <div class="text-center">
-          <h1 class="display-4 pb-3">SNCF.stats</h1>
-          <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
-            <router-link class="btn btn-sncf rounded-pill" to="gares">Gares</router-link>
-            <router-link class="btn btn-sncf rounded-pill mx-3" to="statistiques">Stats</router-link>
-            <router-link class="btn btn-sncf rounded-pill" to="about">A Propos</router-link>
+          <h1 class="display-4 pb-5">SNCF.stats</h1>
+          <div class="btn-group btn-group-lg pt-5" role="group" aria-label="Basic example">
+            <router-link class="btn btn-sncf rounded-pill" to="gares"><i class="fa fa-map"></i> Carte</router-link>
+            <router-link class="btn btn-sncf rounded-pill mx-3" to="statistiques"><i class="fas fa-chart-pie"></i> Stats</router-link>
+            <router-link class="btn btn-sncf rounded-pill" to="about"><i class="fa fa-info-circle"></i> A Propos</router-link>
           </div>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="waves-buttom">
