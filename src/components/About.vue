@@ -19,7 +19,7 @@
             <b-card-text>
               <i>Student - Master 2 Informatique Université de Caen</i>
             </b-card-text>
-            <b-button href="https://github.com/aera128" variant="primary"><i class="fab fa-github"></i> Github</b-button>
+            <b-button href="https://github.com/aera128" target="_blank" variant="primary"><i class="fab fa-github"></i> Github</b-button>
           </b-card>
         </b-col>
         <b-col>
@@ -27,7 +27,7 @@
             <b-card-text>
               <i>Student - Master 2 Informatique Université de Caen</i>
             </b-card-text>
-            <b-button href="https://github.com/ALeloutre" variant="primary"><i class="fab fa-github"></i> Github</b-button>
+            <b-button href="https://github.com/ALeloutre" target="_blank" variant="primary"><i class="fab fa-github"></i> Github</b-button>
           </b-card>
         </b-col>
       </b-row>
