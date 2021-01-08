@@ -60,12 +60,12 @@ export default {
         this.timer = null;
       }
       this.timer = setTimeout(() => {
-        this.$router.push({path: 'gares', query: {q: this.q}});
+        this.$router.push({path: 'map', query: {q: this.q}});
         this.updateMap();
       }, 800);
     },
     updateMap() {
-      // document.querySelector("#btn-search").innerHTML = '<div class="spinner-border" style="width: 1rem; height: 1rem; border-width: 2px" role="status"><span class="sr-only">Loading...</span</div>';
+      document.querySelector("#btn-search").innerHTML = '<div class="spinner-border" style="width: 1rem; height: 1rem; border-width: 2px" role="status"><span class="sr-only">Loading...</span</div>';
       let params = {
         dataset: "referentiel-gares-voyageurs",
         q: (!this.query || this.query === "") ? "niveauservice_libelle > 1" : "niveauservice_libelle > 1 and " + this.query,
@@ -103,7 +103,7 @@ export default {
               });
             })
             this.geojson["features"] = list;
-            // document.querySelector("#btn-search").innerHTML = '<i class="fa fa-search"></i>';
+            document.querySelector("#btn-search").innerHTML = '<i class="fa fa-search"></i>';
           })
     },
     test() {
