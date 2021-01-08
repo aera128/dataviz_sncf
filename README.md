@@ -1,24 +1,22 @@
-# project_sncf
+# Projet IHM 2021 - Master 2 Informatique IDC
 
-## Project setup
+### Requis
+- yarn (https://yarnpkg.com/)
+
+### Installation
 ```
+git clone https://github.com/aera128/dataviz_sncf.git
+cd dataviz_sncf
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Lancer serveur de développement
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
+### Compiler version production
 ```
 yarn build
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
