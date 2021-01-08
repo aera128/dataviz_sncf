@@ -4,7 +4,7 @@
       <div class="d-flex w-100 h-100 justify-content-center align-items-center hero-container"
            style="min-height: calc(100vh - 56px)">
         <div class="text-center">
-          <h1 class="display-4 pb-3">SNCF Data Visualization</h1>
+          <h1 class="display-4 pb-3">SNCF.stats</h1>
           <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
             <router-link class="btn btn-sncf rounded-pill" to="gares">Gares</router-link>
             <router-link class="btn btn-sncf rounded-pill mx-3" to="statistiques">Stats</router-link>
@@ -39,8 +39,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.hero {
-  background-color: #e8f9ed;
+.hero{
+
 }
 
 .waves-buttom {

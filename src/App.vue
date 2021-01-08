@@ -2,9 +2,11 @@
   <div id="app">
     <div>
       <b-navbar toggleable="lg" variant="faded" type="light" sticky class="navbar-sncf">
-        <b-navbar-brand href="/">
-          <b-img class="d-inline-block align-top" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Logo_SNCF_2011.svg/1200px-Logo_SNCF_2011.svg.png" alt="Logo" height="30px"></b-img>
-          SNCF Visualisation
+        <b-navbar-brand>
+          <b-img class="d-inline-block align-top"
+                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Logo_SNCF_2011.svg/1200px-Logo_SNCF_2011.svg.png"
+                 alt="Logo" height="30px"></b-img>
+          SNCF.stats
         </b-navbar-brand>
         <b-navbar-toggle target="navbar-toggle-collapse">
           <template #default="{ expanded }">
@@ -15,10 +17,10 @@
 
         <b-collapse id="navbar-toggle-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item><b-link class="text-decoration-none text-secondary" to="/">Accueil</b-link></b-nav-item>
-            <b-nav-item><b-link class="text-decoration-none text-secondary" to="/gares">Cartes</b-link></b-nav-item>
-            <b-nav-item><b-link class="text-decoration-none text-secondary" to="/statistiques">Stats</b-link></b-nav-item>
-            <b-nav-item><b-link class="text-decoration-none text-secondary" to="/about">A Propos</b-link></b-nav-item>
+            <router-link to="/" tag="b-nav-item"><i class="fa fa-home"></i> Accueil</router-link>
+            <router-link to="/gares" tag="b-nav-item"><i class="fa fa-map"></i> Cartes</router-link>
+            <router-link to="/statistiques" tag="b-nav-item"><i class="fas fa-chart-pie"></i> Stats</router-link>
+            <router-link to="/about" tag="b-nav-item"><i class="fa fa-info-circle"></i> A Propos</router-link>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -26,6 +28,9 @@
     <vue-page-transition name="overlay-up-full">
       <router-view class="page-content"/>
     </vue-page-transition>
+    <footer class="footer d-flex align-items-center justify-content-center">
+      <span class="lead"><i class="fa fa-copyright"></i> 2021</span>
+    </footer>
   </div>
 </template>
 
@@ -33,15 +38,13 @@
 
 export default {
   name: 'App',
-  components: {
-  },
+  components: {},
   props: [],
   mounted() {
 
   },
   data() {
-    return {
-    }
+    return {}
   },
   methods: {
     onItemClick() {
@@ -55,13 +58,18 @@ export default {
 </script>
 <style lang="scss">
 .overlay-top,
-.overlay-bottom
-{
+.overlay-bottom {
   background-color: #d62246 !important;
   z-index: 9998;
 }
-.navbar-sncf{
+
+.navbar-sncf {
   background-color: #ffffff;
   z-index: 20;
+}
+.footer{
+  background-color: #d62246 !important;
+  height: 200px;
+  color: #e8f9ed;
 }
 </style>

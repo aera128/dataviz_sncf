@@ -1,9 +1,15 @@
 <template lang="html">
 
   <section class="list-objects">
-    <b-container fluid>
+    <b-container fluid="">
       <b-row>
-        <b-col>
+        <b-col cols="12" md="10" class="mx-auto">
+          <h1 class="display-4">Objets</h1>
+          <hr class="my-4">
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" md="10" class="mx-auto">
           <grid
               :auto-width="autoWidth"
               :cols="cols"
@@ -39,8 +45,15 @@ export default {
     return {
       uic: this.$route.query.uic ? this.$route.query.uic : '',
       autoWidth: true,
-      cols: null,
-      rows: null,
+      cols: ["Nature", "Gare", "Date", "Type", "Objet", "UIC_Gare"],
+      rows: [{
+        "nature": 'Loading..',
+        "gare": 'Loading..',
+        "date": 'Loading..',
+        "type": 'Loading..',
+        "objet": 'Loading..',
+        "uic_gare": 'Loading..'
+      }],
       pagination: true,
       search: true,
       sort: true,
@@ -64,31 +77,35 @@ export default {
   },
   methods: {
     loadData() {
-      axios.get("https://data.sncf.com/api/records/1.0/search/", {
-        params: {
-          "dataset": "objets-trouves-restitution",
-          "timezone": "UTC",
-          "q": "gc_obo_gare_origine_r_code_uic_c:" + this.uic,
-          "rows": -1,
-          "sort": [
-            "date"
-          ],
-          "format": "json",
-        }
-      }).then(r => {
-        this.response = r.data
-        this.cols = ["Nature", "Gare", "Date", "Type", "Objet", "UIC_Gare"]
-        let data = []
-        this.response.records.map(value => {
-          this.renameKey(value.fields, "gc_obo_nature_c", "nature")
-          this.renameKey(value.fields, "gc_obo_gare_origine_r_name", "gare")
-          this.renameKey(value.fields, "gc_obo_nom_recordtype_sc_c", "type")
-          this.renameKey(value.fields, "gc_obo_type_c", "objet")
-          this.renameKey(value.fields, "gc_obo_gare_origine_r_code_uic_c", "uic_gare")
-          data.push(value.fields);
+      if (this.uic !== '') {
+        axios.get("https://data.sncf.com/api/records/1.0/search/", {
+          params: {
+            "dataset": "objets-trouves-restitution",
+            "timezone": "UTC",
+            "q": "gc_obo_gare_origine_r_code_uic_c:" + this.uic,
+            "rows": -1,
+            "sort": [
+              "date"
+            ],
+            "format": "json",
+          }
+        }).then(r => {
+          this.response = r.data
+          this.cols = ["Nature", "Gare", "Date", "Type", "Objet", "UIC_Gare"]
+          let data = []
+          this.response.records.map(value => {
+            this.renameKey(value.fields, "gc_obo_nature_c", "nature")
+            this.renameKey(value.fields, "gc_obo_gare_origine_r_name", "gare")
+            this.renameKey(value.fields, "gc_obo_nom_recordtype_sc_c", "type")
+            this.renameKey(value.fields, "gc_obo_type_c", "objet")
+            this.renameKey(value.fields, "gc_obo_gare_origine_r_code_uic_c", "uic_gare")
+            data.push(value.fields);
+          })
+          this.rows = data
         })
-        this.rows = data
-      })
+      } else {
+        this.rows = []
+      }
     },
     renameKey(obj, key, newKey) {
       obj[newKey] = obj[key];

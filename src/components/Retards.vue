@@ -3,7 +3,7 @@
   <section class="retards">
     <b-container fluid>
       <b-row>
-        <b-col class="mx-auto mb-4">
+        <b-col class="mb-4">
           <label>Année :</label>
           <select v-model="year" @change="updateChart" class="form-control">
             <option v-for="option in select_options" v-bind:key="option.value" v-bind:value="option.value">
@@ -101,7 +101,7 @@ export default {
             mode: 'single',
             callbacks: {
               label: function (tooltipItems) {
-                return '$' + tooltipItems.yLabel;
+                return tooltipItems.yLabel.toFixed(2) + "%";
               }
             }
           },

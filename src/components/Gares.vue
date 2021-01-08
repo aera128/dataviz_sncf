@@ -24,6 +24,7 @@
 // import L from 'leaflet';
 import {LMap, LTileLayer, LGeoJson} from 'vue2-leaflet';
 import axios from "axios";
+import * as qs from "qs";
 
 export default {
   name: 'gares',
@@ -49,7 +50,8 @@ export default {
       },
       timer: null,
       prevRoute: null,
-      q: this.$route.query.q
+      q: this.$route.query.q,
+      foundObjects: null
     }
   },
   methods: {
@@ -65,17 +67,22 @@ export default {
     },
     updateMap() {
       // document.querySelector("#btn-search").innerHTML = '<div class="spinner-border" style="width: 1rem; height: 1rem; border-width: 2px" role="status"><span class="sr-only">Loading...</span</div>';
+      let params = {
+        dataset: "referentiel-gares-voyageurs",
+        q: (!this.query || this.query === "") ? "niveauservice_libelle > 1" : "niveauservice_libelle > 1 and " + this.query,
+        rows: -1,
+        facet: ["departement_libellemin", "segmentdrg_libelle", "gare_agencegc_libelle", "gare_regionsncf_libelle", "gare_ug_libelle"]
+      }
+      params = qs.stringify(params, {indices: false})
+
       axios
-          .get('https://ressources.data.sncf.com/api/records/1.0/search/?dataset=referentiel-gares-voyageurs', {
-            params: {
-              q: (!this.query || this.query === "") ? "niveauservice_libelle > 1" : "niveauservice_libelle > 1 and " + this.query,
-              rows: -1,
-              facet: ["departement_libellemin", "segmentdrg_libelle", "gare_agencegc_libelle", "gare_regionsncf_libelle", "gare_ug_libelle"]
-            }
-          })
+          .get('https://ressources.data.sncf.com/api/records/1.0/search/?' + params)
           .then(r => {
+            // console.log(r.data)
+
             let list = [];
             r.data.records.map((value) => {
+              let facet = this.foundObjects.facets.find(x => x.name === value.fields.alias_libelle_noncontraint)
               list.push({
                 "type": "Feature",
                 "properties": {
@@ -87,21 +94,28 @@ export default {
                       "<div><strong>Latitude : </strong> " + value.fields.latitude_entreeprincipale_wgs84 + " </div>" +
                       "<div><strong>Longitude : </strong> " + value.fields.longitude_entreeprincipale_wgs84 + " </div>" +
                       "<div><strong>Niveau de service : </strong> " + value.fields.niveauservice_libelle + " </div>" +
-                      "<div><div style='cursor: pointer' class='objects-station btn-link' to='objets/?uic=" + value.fields.uic_code + "'>Voir les objets trouvés</div> </div>"
+                      (facet ? "<div><strong>Total d'objets trouvés : </strong> " + facet.count + " </div>" : '') +
+                      (facet ? "<div><div style='cursor: pointer' class='objects-station btn-link' to='objets/?uic=" + value.fields.uic_code + "'>Voir les objets trouvés</div> </div>" :
+                          "<div><i>Pas d'objets trouvés</div>")
                 },
                 "geometry": value.geometry
               });
             })
             this.geojson["features"] = list;
             // document.querySelector("#btn-search").innerHTML = '<i class="fa fa-search"></i>';
-
           })
     },
     test() {
-      document.querySelector('.objects-station').addEventListener('click', () => {
-        this.$router.push(document.querySelector('.objects-station').getAttribute('to'))
-      })
-    }
+      try {
+        document.querySelector('.objects-station').addEventListener('click', () => {
+          if (document.querySelector('.objects-station')) {
+            this.$router.push(document.querySelector('.objects-station').getAttribute('to'))
+          }
+        })
+      } catch (e) {
+        return -1
+      }
+    },
   },
   computed: {
     query() {
@@ -133,6 +147,10 @@ export default {
     }
   },
   async created() {
+    await axios.get("https://data.sncf.com/api/records/1.0/search/?dataset=objets-trouves-restitution&q=&rows=1&facet=date&facet=gc_obo_date_heure_restitution_c&facet=gc_obo_gare_origine_r_name&facet=gc_obo_nature_c&facet=gc_obo_type_c&facet=gc_obo_nom_recordtype_sc_c")
+        .then(r => {
+          this.foundObjects = r.data.facet_groups.find(facets => facets.name === "gc_obo_gare_origine_r_name")
+        })
     this.updateMap();
   },
   watch: {
@@ -149,7 +167,7 @@ export default {
   position: relative;
   left: 0;
   width: 100%;
-  height: calc(100vh - 59px);
+  height: calc(100vh - 56px);
   z-index: 0;
 }
 

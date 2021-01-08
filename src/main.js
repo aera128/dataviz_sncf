@@ -11,10 +11,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 import 'leaflet/dist/leaflet.css';
 import {Icon} from 'leaflet';
-import VueSidebarMenu from 'vue-sidebar-menu'
-import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 import VuePageTransition from 'vue-page-transition'
-import VueRellax from 'vue-rellax'
 
 
 delete Icon.Default.prototype._getIconUrl;
@@ -27,9 +24,7 @@ Icon.Default.mergeOptions({
 Vue.config.productionTip = false
 
 Vue.use(VueAxios, axios)
-Vue.use(VueSidebarMenu)
 Vue.use(VuePageTransition)
-Vue.use(VueRellax)
 
 new Vue({
     router,

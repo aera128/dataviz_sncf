@@ -2,7 +2,7 @@
   <section class="objects">
     <b-container fluid>
       <b-row>
-        <b-col class="mx-auto">
+        <b-col>
           <label>Année :</label>
           <select v-model="year" @change="updatePie" class="form-control">
             <option v-for="option in select_options" v-bind:key="option.value" v-bind:value="option.value">
@@ -12,11 +12,8 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col class="mx-auto pt-3">
-          <p>
-            <strong>Total :</strong> {{ total }}<br>
-            <strong>Restitutions :</strong> {{ nb_restitutions }}<br>
-            <strong>Pourcentage :</strong> {{ pourcentage }} %</p>
+        <b-col>
+          <p>Total : {{ total }}<br>Restitutions : {{ nb_restitutions }}<br>Pourcentage : {{ pourcentage }}</p>
           <span></span>
           <pie :data="chartData" :options="chartOptions"></pie>
         </b-col>
@@ -69,8 +66,7 @@ export default {
         this.total = date.facets.find(x => x.name == this.year).count;
         let restitutions = this.response.facet_groups.find(x => x.name === "gc_obo_date_heure_restitution_c")
         this.nb_restitutions = restitutions.facets.find(x => x.name == this.year).count;
-        this.pourcentage = this.nb_restitutions*100/this.total;
-        this.pourcentage = this.pourcentage.toFixed(2);
+        this.pourcentage = (this.nb_restitutions*100/this.total).toFixed(2) +"%";
 
         this.chartData = {
           hoverBorderWidth: 10,
