@@ -25,10 +25,11 @@
 <script lang="js">
 
 import axios from "axios";
-import BarChart from "./barChart";
+import BarChart from "../../charts/BarChart";
+import tinycolor2 from "tinycolor2";
 
 export default {
-  name: 'retards',
+  name: 'delays',
   components: {BarChart},
   props: [],
   mounted() {
@@ -58,18 +59,22 @@ export default {
 
         let labels = []
         let tmp_data = []
+        let colors = []
+        let index = 0
+
         this.response.forEach(value => {
           labels.push(months[value.fields.mois - 1]);
           tmp_data.push(100 - value.fields.regularite_composite_en_)
+          colors.push(tinycolor2("#0e7c7b").lighten(5 * index).toString())
+          index++
         })
         this.chartData = {
           labels: labels,
           datasets: [{
             label: "Taux de retard par année :",
-            backgroundColor: ["#021212", "#042424","#063535", "#084747", "#0a5958", "#0c6a6a", "#0e7c7b", "#108e8c", "#129f9e", "#14b1af", "#16c3c1", "#18d4d2"],
+            backgroundColor: colors,
             pointBackgroundColor: 'white',
             borderWidth: 1,
-            pointBorderColor: '#249EBF',
             data: tmp_data
           }]
         }

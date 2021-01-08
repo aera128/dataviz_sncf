@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from "../components/Home";
-import About from "../components/About";
-import Gares from "../components/Gares";
-import Stats from "../components/Stats";
-import listObjects from "../components/listObjects";
+import Home from "../components/pages/Home";
+import About from "../components/pages/About";
+import Map from "../components/pages/Map";
+import Stats from "../components/pages/Stats";
+import Station from "../components/pages/Station";
 
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
@@ -20,19 +20,19 @@ const routes = [
         component: Home,
     },
     {
-        path: '/gares',
-        name: 'Gares',
-        component: Gares
+        path: '/map',
+        name: 'Map',
+        component: Map
     },
     {
-        path: '/statistiques',
+        path: '/stats',
         name: 'stats',
         component: Stats
     },
     {
-        path: '/objets/',
-        name: 'objets',
-        component: listObjects
+        path: '/station/',
+        name: 'station',
+        component: Station
     },
     {
         path: '/about',

@@ -21,13 +21,12 @@
 </template>
 
 <script lang="js">
-// import L from 'leaflet';
 import {LMap, LTileLayer, LGeoJson} from 'vue2-leaflet';
 import axios from "axios";
 import * as qs from "qs";
 
 export default {
-  name: 'gares',
+  name: 'map',
   components: {
     LMap,
     LTileLayer,
@@ -78,8 +77,6 @@ export default {
       axios
           .get('https://ressources.data.sncf.com/api/records/1.0/search/?' + params)
           .then(r => {
-            // console.log(r.data)
-
             let list = [];
             r.data.records.map((value) => {
               let facet = this.foundObjects.facets.find(x => x.name === value.fields.alias_libelle_noncontraint)
@@ -95,7 +92,11 @@ export default {
                       "<div><strong>Longitude : </strong> " + value.fields.longitude_entreeprincipale_wgs84 + " </div>" +
                       "<div><strong>Niveau de service : </strong> " + value.fields.niveauservice_libelle + " </div>" +
                       (facet ? "<div><strong>Total d'objets trouvés : </strong> " + facet.count + " </div>" : '') +
-                      (facet ? "<div><div style='cursor: pointer' class='objects-station btn-link' to='objets/?uic=" + value.fields.uic_code + "'>Voir les objets trouvés</div> </div>" :
+                      (facet ? "<div class='text-center'>" +
+                          "<div " +
+                          "style='cursor: pointer' class='objects-station btn btn-primary btn-sm rounded-pill mt-3' " +
+                          "to='station/?uic=" + value.fields.uic_code + "&name=" + value.fields.alias_libelle_noncontraint + "'>Voir Statistiques</div>" +
+                          "</div>" :
                           "<div><i>Pas d'objets trouvés</div>")
                 },
                 "geometry": value.geometry

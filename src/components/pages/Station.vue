@@ -1,15 +1,33 @@
 <template lang="html">
 
   <section class="list-objects">
-    <b-container fluid="">
+    <b-container v-if="uic">
       <b-row>
-        <b-col cols="12" md="10" class="mx-auto">
+        <b-col>
+          <h1 class="display-4">Statistiques {{ name }}</h1>
+          <hr class="my-4">
+        </b-col>
+      </b-row>
+      <b-row class="mb-5">
+        <b-col sm="12" md="6" lg="5" xl="5" class="mx-sm-auto">
+          <h2 class="lead">Objets Trouvés</h2>
+          <hr>
+          <objects :uic="uic"></objects>
+        </b-col>
+        <b-col sm="12" md="6" lg="7" xl="7" class="mx-sm-auto mt-sm-3 mt-md-0">
+          <h2 class="lead">Top 10 types d'objets trouvés</h2>
+          <hr>
+          <type-objects :uic="uic"></type-objects>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
           <h1 class="display-4">Objets</h1>
           <hr class="my-4">
         </b-col>
       </b-row>
       <b-row>
-        <b-col cols="12" md="10" class="mx-auto">
+        <b-col>
           <grid
               :auto-width="autoWidth"
               :cols="cols"
@@ -24,6 +42,19 @@
         </b-col>
       </b-row>
     </b-container>
+    <b-container v-if="!uic">
+      <b-row>
+        <b-col>
+          <h1 class="display-4">Error</h1>
+          <hr class="my-4">
+        </b-col>
+      </b-row>
+      <b-row class="mb-5">
+        <i>Aucune gare selectionnée ou trouvée, veuillez en selectionner une sur
+          <b-link to="/gares">la Carte</b-link>
+        </i>
+      </b-row>
+    </b-container>
   </section>
 
 </template>
@@ -31,11 +62,15 @@
 <script lang="js">
 import Grid from 'gridjs-vue'
 import axios from "axios";
+import Objects from "@/components/widgets/stats/Objects";
+import TypeObjects from "@/components/widgets/stats/TypeObjects";
 
 export default {
-  name: 'list-objects',
+  name: 'station',
   components: {
-    Grid
+    Grid,
+    Objects,
+    TypeObjects
   },
   props: [],
   mounted() {
@@ -44,6 +79,7 @@ export default {
   data() {
     return {
       uic: this.$route.query.uic ? this.$route.query.uic : '',
+      name: '',
       autoWidth: true,
       cols: ["Nature", "Gare", "Date", "Type", "Objet", "UIC_Gare"],
       rows: [{
@@ -91,17 +127,23 @@ export default {
           }
         }).then(r => {
           this.response = r.data
-          this.cols = ["Nature", "Gare", "Date", "Type", "Objet", "UIC_Gare"]
-          let data = []
-          this.response.records.map(value => {
-            this.renameKey(value.fields, "gc_obo_nature_c", "nature")
-            this.renameKey(value.fields, "gc_obo_gare_origine_r_name", "gare")
-            this.renameKey(value.fields, "gc_obo_nom_recordtype_sc_c", "type")
-            this.renameKey(value.fields, "gc_obo_type_c", "objet")
-            this.renameKey(value.fields, "gc_obo_gare_origine_r_code_uic_c", "uic_gare")
-            data.push(value.fields);
-          })
-          this.rows = data
+
+          if (r.data.nhits === 0) {
+            this.uic = null
+          } else {
+            this.cols = ["Nature", "Gare", "Date", "Type", "Objet", "UIC_Gare"]
+            let data = []
+            this.response.records.map(value => {
+              this.renameKey(value.fields, "gc_obo_nature_c", "nature")
+              this.renameKey(value.fields, "gc_obo_gare_origine_r_name", "gare")
+              this.renameKey(value.fields, "gc_obo_nom_recordtype_sc_c", "type")
+              this.renameKey(value.fields, "gc_obo_type_c", "objet")
+              this.renameKey(value.fields, "gc_obo_gare_origine_r_code_uic_c", "uic_gare")
+              data.push(value.fields);
+            })
+            this.rows = data
+          }
+
         })
       } else {
         this.rows = []
@@ -114,6 +156,7 @@ export default {
   },
   computed: {},
   async created() {
+    this.name = this.$route.query.name ? this.$route.query.name : ''
     this.loadData()
   }
 }

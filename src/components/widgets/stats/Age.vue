@@ -15,11 +15,11 @@
 <script lang="js">
 import axios from "axios";
 import * as qs from "qs";
-import LineChart from "./LineChart";
+import LineChart from "../../charts/LineChart";
 
 export default {
   name: 'age',
-  props: [],
+  props: ['uic'],
   components: {
     LineChart,
   },
@@ -45,6 +45,7 @@ export default {
     getData() {
       let params = {
         dataset: "enquetes-gares-connexions-repartition-repartition-par-classe-dage",
+        q: this.uic ? 'uic:' + this.uic : '',
         rows: -1,
         facet: ["classe_d_age"]
       }

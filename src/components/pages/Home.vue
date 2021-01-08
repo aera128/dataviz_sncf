@@ -6,8 +6,8 @@
         <div class="text-center">
           <h1 class="display-4 pb-5">SNCF.stats</h1>
           <div class="btn-group btn-group-lg pt-5" role="group" aria-label="Basic example">
-            <router-link class="btn btn-sncf rounded-pill" to="gares"><i class="fa fa-map"></i> Carte</router-link>
-            <router-link class="btn btn-sncf rounded-pill mx-3" to="statistiques"><i class="fas fa-chart-pie"></i> Stats</router-link>
+            <router-link class="btn btn-sncf rounded-pill" to="map"><i class="fa fa-map"></i> Carte</router-link>
+            <router-link class="btn btn-sncf rounded-pill mx-3" to="stats"><i class="fas fa-chart-pie"></i> Stats</router-link>
             <router-link class="btn btn-sncf rounded-pill" to="about"><i class="fa fa-info-circle"></i> A Propos</router-link>
           </div>
         </div>

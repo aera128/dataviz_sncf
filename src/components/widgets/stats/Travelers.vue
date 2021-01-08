@@ -14,10 +14,11 @@
       </b-row>
       <b-row>
         <b-col>
-          <div id="loader" class="d-flex align-items-center justify-content-center">
+          <div id="loader" class="d-flex align-items-center justify-content-center mt-3">
             <b-spinner label="Spinning" style="width: 3rem; height: 3rem;"></b-spinner>
           </div>
-          <horizontal-bar-chart id="chart" class="loading" :data="chartData" :options="chartOptions"></horizontal-bar-chart>
+          <horizontal-bar-chart id="chart" class="loading mt-3" :data="chartData"
+                                :options="chartOptions"></horizontal-bar-chart>
         </b-col>
       </b-row>
     </b-container>
@@ -29,10 +30,11 @@
 
 import * as qs from "qs";
 import axios from "axios";
-import HorizontalBarChart from "./horizontalBarChart";
+import HorizontalBarChart from "../../charts/HorizontalBarChart";
+import tinycolor2 from "tinycolor2";
 
 export default {
-  name: 'voyageurs',
+  name: 'travelers',
   components: {HorizontalBarChart},
   props: [],
   mounted() {
@@ -51,14 +53,13 @@ export default {
       try {
         document.querySelector('#chart').classList.add('loading')
         document.querySelector('#loader').classList.remove('loading')
-      }
-      catch (e){
+      } catch (e) {
         console.log()
       }
       let params = {
         dataset: "frequentation-gares",
-        rows: -1,
-        sort: "total_voyageurs_" + this.year
+        rows: 10,
+        sort: this.year !== 2017 ? "total_voyageurs_" + this.year : "totalvoyageurs" + this.year
       }
 
       params = qs.stringify(params)
@@ -80,24 +81,26 @@ export default {
       } else {
         let labels = []
         let rows = []
+        let colors = []
         for (let i = 0; i < 10; i++) {
+          colors.push(tinycolor2("#0e7c7b").lighten(5 * i).toString())
           labels.push(this.response[i].nom_gare)
           switch (this.year) {
-              case 2015:
-                rows.push(this.response[i].total_voyageurs_2015);
-                break;
-              case 2016:
-                rows.push(this.response[i].total_voyageurs_2016);
-                break;
-              case 2017:
-                rows.push(this.response[i].total_voyageurs_2017);
-                break;
-              case 2018:
-                rows.push(this.response[i].total_voyageurs_2018);
-                break;
-              case 2019:
-                rows.push(this.response[i].total_voyageurs_2019);
-                break;
+            case 2015:
+              rows.push(this.response[i].total_voyageurs_2015);
+              break;
+            case 2016:
+              rows.push(this.response[i].total_voyageurs_2016);
+              break;
+            case 2017:
+              rows.push(this.response[i].totalvoyageurs2017);
+              break;
+            case 2018:
+              rows.push(this.response[i].total_voyageurs_2018);
+              break;
+            case 2019:
+              rows.push(this.response[i].total_voyageurs_2019);
+              break;
           }
         }
         this.chartData = {
@@ -106,7 +109,7 @@ export default {
             {
               label: "2015",
               data: rows,
-              backgroundColor: ["#de2e51", "#e03f5f", "#e3506d", "#e6617b", "#e97289", "#eb8297", "#ee93a6", "#f1a4b4", "#f3b5c2", "#f6c6d0"],
+              backgroundColor: colors,
             }
           ]
         }
