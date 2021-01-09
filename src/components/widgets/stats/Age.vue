@@ -3,7 +3,7 @@
   <section class="age">
     <b-container fluid>
       <b-row>
-        <b-col class="mx-auto pt-3">
+        <b-col class="mx-auto pt-5">
           <line-chart :data="chartData" :options="chartOptions"></line-chart>
         </b-col>
       </b-row>
