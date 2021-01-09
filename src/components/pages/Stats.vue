@@ -21,13 +21,13 @@
         </b-col>
       </b-row>
       <b-row class="mt-4">
-        <b-col sm="12" md="6" lg="8" xl="8" class="mx-sm-auto">
+        <b-col sm="12" md="6" lg="6" xl="6" class="mx-sm-auto">
           <h2 class="lead">Moyenne d'age des voyageurs</h2>
           <hr>
           <age></age>
         </b-col>
-        <b-col sm="12" md="6" lg="4" xl="4" class="mx-sm-auto">
-          <h2 class="lead">Top 10 types d'objets trouvés</h2>
+        <b-col sm="12" md="6" lg="6" xl="6" class="mx-sm-auto">
+          <h2 class="lead">Top 20 types d'objets trouvés</h2>
           <hr>
           <type-objects></type-objects>
         </b-col>

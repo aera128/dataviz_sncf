@@ -4,25 +4,24 @@
     <b-container fluid>
       <b-row class="mt-5">
         <b-col>
-          <pie :data="chartData" :options="chartOptions"></pie>
+          <horizontal-bar-chart :data="chartData" :options="chartOptions"></horizontal-bar-chart>
         </b-col>
       </b-row>
     </b-container>
   </section>
-
 </template>
 
 <script lang="js">
 
-import Pie from "@/components/charts/PieChart";
 import axios from "axios";
 import * as qs from "qs";
 import tinycolor2 from "tinycolor2";
+import HorizontalBarChart from "@/components/charts/HorizontalBarChart";
 
 export default {
   name: 'type-objects',
   components: {
-    Pie
+    HorizontalBarChart
   },
   props: ['uic'],
   mounted() {
@@ -66,10 +65,10 @@ export default {
       let index = 0
       let colors = []
       types.facets.map(value => {
-        if (index < 10) {
+        if (index < 20) {
           labels.push(value.name)
           data.push(value.count)
-          colors.push(tinycolor2("#0e7c7b").lighten(7 * index).toString())
+          colors.push(tinycolor2("#0e7c7b").lighten(3 * index).toString())
           index++
         } else {
           return
@@ -84,7 +83,7 @@ export default {
             backgroundColor: colors,
             data: data
           }
-        ]
+        ],
       }
     }
   },

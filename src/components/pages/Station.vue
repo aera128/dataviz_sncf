@@ -9,13 +9,13 @@
         </b-col>
       </b-row>
       <b-row class="mb-5">
-        <b-col sm="12" md="6" lg="5" xl="5" class="mx-sm-auto">
+        <b-col sm="12" md="6" lg="4" xl="4" class="mx-sm-auto">
           <h2 class="lead">Objets Trouvés</h2>
           <hr>
           <objects :uic="uic"></objects>
         </b-col>
-        <b-col sm="12" md="6" lg="7" xl="7" class="mx-sm-auto mt-sm-3 mt-md-0">
-          <h2 class="lead">Top 10 types d'objets trouvés</h2>
+        <b-col sm="12" md="6" lg="8" xl="8" class="mx-sm-auto mt-sm-3 mt-md-0">
+          <h2 class="lead">Top 20 types d'objets trouvés</h2>
           <hr>
           <type-objects :uic="uic"></type-objects>
         </b-col>
